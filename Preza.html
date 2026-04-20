@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Number Theory Elective | OGE Task 19 | Final Large Font Conclusion</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a2e42;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+
+        .presentation-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .slides-wrapper {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            will-change: transform;
+        }
+
+        .slide {
+            flex: 0 0 100%;
+            width: 100%;
+            height: 100%;
+            overflow-y: auto;
+            background: linear-gradient(135deg, #eef2f9 0%, #dfe6f0 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            scrollbar-width: thin;
+        }
+
+        .slide::-webkit-scrollbar {
+            width: 8px;
+        }
+        .slide::-webkit-scrollbar-track {
+            background: #cbdae6;
+            border-radius: 10px;
+        }
+        .slide::-webkit-scrollbar-thumb {
+            background: #2a5f78;
+            border-radius: 10px;
+        }
+
+        .slide-card {
+            max-width: 1300px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.96);
+            border-radius: 2rem;
+            box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.6);
+            margin: 0 auto;
+        }
+
+        .slide-header {
+            background: #0a2e42;
+            padding: 0.8rem 2rem;
+            color: white;
+            font-weight: 600;
+            font-size: 1rem;
+            letter-spacing: 0.3px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid #3f9bc0;
+        }
+
+        .slide-number {
+            background: #2a5f78;
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .slide-content {
+            padding: 2rem 2.5rem 2.5rem 2.5rem;
+        }
+
+        /* ========== Слайды 1-2: ОЧЕНЬ КРУПНЫЙ шрифт ========== */
+        .slide-extra-large .slide-content {
+            font-size: 1.4rem;
+        }
+        .slide-extra-large h1 {
+            font-size: 5rem;
+            font-weight: 800;
+            background: linear-gradient(130deg, #0f3b4f, #1f6e93);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            margin-bottom: 1.2rem;
+            letter-spacing: -0.02em;
+        }
+        .slide-extra-large h2 {
+            font-size: 3.3rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: #165a78;
+            border-left: 6px solid #2e8eb0;
+            padding-left: 1.2rem;
+        }
+        .slide-extra-large h3 {
+            font-size: 2.2rem;
+            font-weight: 600;
+            margin: 1.2rem 0 1rem 0;
+            color: #1f6580;
+        }
+        .slide-extra-large .badge {
+            display: inline-block;
+            background: #e6f0f5;
+            padding: 0.5rem 1.8rem;
+            border-radius: 40px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #136b8a;
+            margin-bottom: 1.2rem;
+        }
+        .slide-extra-large .info-card p {
+            font-size: 1.4rem;
+            line-height: 1.5;
+        }
+        .slide-extra-large .task-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .slide-extra-large .task-list li {
+            margin-bottom: 1rem;
+            padding-left: 1.8rem;
+            position: relative;
+            font-size: 1.3rem;
+            line-height: 1.5;
+        }
+        .slide-extra-large .task-list li::before {
+            content: "▹";
+            position: absolute;
+            left: 0;
+            color: #2e8eb0;
+            font-weight: 700;
+            font-size: 1.3rem;
+        }
+        .slide-extra-large p:not(.small) {
+            font-size: 1.4rem;
+            line-height: 1.5;
+        }
+        .slide-extra-large .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 1.5rem 0 0.5rem;
+        }
+
+        /* ========== Слайды 3-4: КРУПНЫЙ шрифт ========== */
+        .slide-large .slide-content {
+            font-size: 1.2rem;
+        }
+        .slide-large h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: #165a78;
+            border-left: 6px solid #2e8eb0;
+            padding-left: 1rem;
+        }
+        .slide-large h3 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin: 1rem 0 0.8rem 0;
+            color: #1f6580;
+        }
+        .slide-large .task-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .slide-large .task-list li {
+            font-size: 1.2rem;
+            margin-bottom: 0.8rem;
+            padding-left: 1.6rem;
+            position: relative;
+            line-height: 1.4;
+        }
+        .slide-large .task-list li::before {
+            content: "▹";
+            position: absolute;
+            left: 0;
+            color: #2e8eb0;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+        .slide-large .info-card p {
+            font-size: 1.15rem;
+        }
+        .slide-large p {
+            font-size: 1.15rem;
+        }
+
+        /* ========== Слайд 5 (Results): УВЕЛИЧЕННЫЙ шрифт ========== */
+        .slide-medium-large .slide-content {
+            font-size: 1.1rem;
+        }
+        .slide-medium-large h2 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 1.2rem;
+            color: #165a78;
+            border-left: 5px solid #2e8eb0;
+            padding-left: 1rem;
+        }
+        .slide-medium-large h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 0.8rem 0 0.6rem 0;
+            color: #1f6580;
+        }
+        .slide-medium-large .info-card p {
+            font-size: 1rem;
+        }
+        .slide-medium-large .data-table th,
+        .slide-medium-large .data-table td {
+            font-size: 1rem;
+            padding: 0.7rem 0.5rem;
+        }
+        .slide-medium-large .result-badge {
+            font-size: 0.95rem;
+            padding: 0.25rem 0.8rem;
+        }
+        .slide-medium-large .footer-note {
+            font-size: 0.85rem;
+        }
+        .slide-medium-large p {
+            font-size: 1rem;
+        }
+
+        /* ========== Слайд 6 (Conclusion): БОЛЬШОЙ ШРИФТ ========== */
+        .slide-conclusion .slide-content {
+            font-size: 1.3rem;
+        }
+        .slide-conclusion h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: #165a78;
+            border-left: 6px solid #2e8eb0;
+            padding-left: 1rem;
+        }
+        .slide-conclusion h3 {
+            font-size: 1.7rem;
+            font-weight: 600;
+            margin: 0.8rem 0 0.6rem 0;
+            color: #1f6580;
+        }
+        .slide-conclusion .info-card p {
+            font-size: 1.2rem;
+        }
+        .slide-conclusion p {
+            font-size: 1.2rem;
+        }
+        .slide-conclusion .footer-note {
+            font-size: 0.95rem;
+        }
+
+        /* Общие стили */
+        .info-card {
+            background: #f6fafd;
+            border-radius: 1.5rem;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #dcebf3;
+        }
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            background: #ffffff;
+            border-radius: 1rem;
+            overflow: hidden;
+        }
+        .data-table th, .data-table td {
+            text-align: center;
+            border-bottom: 1px solid #d4e2ec;
+        }
+        .data-table th {
+            background: #e2eff6;
+            font-weight: 700;
+            color: #0f4b63;
+        }
+        .result-badge {
+            background: #e2f3e9;
+            color: #116b44;
+            font-weight: 700;
+            border-radius: 30px;
+            display: inline-block;
+        }
+        hr {
+            margin: 1rem 0;
+            border: none;
+            height: 1px;
+            background: linear-gradient(90deg, #c0d9e8, transparent);
+        }
+        .footer-note {
+            text-align: center;
+            margin-top: 1rem;
+            color: #5f7f92;
+        }
+
+        .nav-btn {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #0a2e42cc;
+            backdrop-filter: blur(8px);
+            color: white;
+            border: none;
+            width: 56px;
+            height: 56px;
+            border-radius: 60px;
+            font-size: 2.2rem;
+            cursor: pointer;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            font-weight: 500;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.25);
+        }
+        .nav-btn:hover {
+            background: #1c5a78;
+            transform: translateY(-50%) scale(1.05);
+        }
+        .prev-btn {
+            left: 24px;
+        }
+        .next-btn {
+            right: 24px;
+        }
+        .dots {
+            position: fixed;
+            bottom: 24px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 14px;
+            z-index: 1000;
+        }
+        .dot {
+            width: 12px;
+            height: 12px;
+            background: #9bb7c9;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .dot.active {
+            background: #0a2e42;
+            width: 32px;
+            border-radius: 10px;
+        }
+
+        @media (max-width: 720px) {
+            .slide-content { padding: 1rem; }
+            .slide-extra-large h1 { font-size: 2.2rem; }
+            .slide-extra-large h2 { font-size: 1.6rem; }
+            .slide-extra-large h3 { font-size: 1.3rem; }
+            .slide-extra-large .task-list li { font-size: 1rem; }
+            .slide-large h2 { font-size: 1.5rem; }
+            .slide-medium-large h2 { font-size: 1.3rem; }
+            .slide-conclusion h2 { font-size: 1.5rem; }
+            .slide-conclusion h3 { font-size: 1.2rem; }
+            .grid-2col { grid-template-columns: 1fr; gap: 1rem; }
+            .nav-btn { width: 44px; height: 44px; font-size: 1.6rem; }
+            .prev-btn { left: 12px; }
+            .next-btn { right: 12px; }
+        }
+    </style>
+</head>
+<body>
+<div class="presentation-container">
+    <div class="slides-wrapper" id="slidesWrapper">
+        
+        <!-- SLIDE 1: TITLE (экстра-крупный) -->
+        <div class="slide slide-extra-large">
+            <div class="slide-card">
+                <div class="slide-header">
+                    <span>📐 Elective Course · Mathematics (Grade 10)</span>
+                    <span class="slide-number">1 / 6</span>
+                </div>
+                <div class="slide-content">
+                    <span class="badge">Advanced study · Preparation for OGE Task No. 19 & Olympiads</span>
+                    <h1>Elective Course<br>“Number Theory”</h1>
+                    <div style="margin-top: 2rem; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end;">
+                        <div>
+                            <p><strong>Developer:</strong> V. M. Kutuzov</p>
+                            <p><strong>School:</strong> Yagulskaya Secondary School</p>
+                            <p><strong>Scientific advisor:</strong> Associate Professor N. A. Baranova</p>
+                        </div>
+                        <div style="text-align: right; font-style: italic; background: #eef3f7; padding: 0.8rem 1.5rem; border-radius: 1.5rem; font-size: 1.2rem;">
+                            “From reproductive learning<br>to creative thinking”
+                        </div>
+                    </div>
+                    <hr>
+                    <div style="margin-top: 1.5rem; display: flex; gap: 1.5rem; flex-wrap: wrap; justify-content: center;">
+                        <span class="badge" style="font-size: 1.1rem;">🎯 58 hours</span>
+                        <span class="badge" style="font-size: 1.1rem;">⏱️ 2 hours per week</span>
+                        <span class="badge" style="font-size: 1.1rem;">🧠 Solving OGE Task No. 19</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 2: GOAL (экстра-крупный) -->
+        <div class="slide slide-extra-large">
+            <div class="slide-card">
+                <div class="slide-header">
+                    <span>🎯 Main Goal</span>
+                    <span class="slide-number">2 / 6</span>
+                </div>
+                <div class="slide-content">
+                    <h2>Goal of the Elective Course</h2>
+                    <div class="info-card" style="background: linear-gradient(120deg, #f0f7fc, #ffffff); margin-bottom: 1.8rem;">
+                        <p style="font-size: 1.6rem; font-weight: 600; color: #0a4b68;">To transition from reproductive problem-solving to <strong>creative application</strong> of number theory concepts.</p>
+                    </div>
+                    <div class="grid-2col">
+                        <div class="info-card">
+                            <div style="font-size: 2.8rem; margin-bottom: 0.8rem;">🎓</div>
+                            <h3>Key Focus</h3>
+                            <p style="font-size: 1.4rem;">Teach students to use the Euclidean algorithm, properties of primes, modular arithmetic, and Diophantine equations to solve non‑standard problems, including <strong>OGE Task No. 19</strong>.</p>
+                        </div>
+                        <div class="info-card">
+                            <div style="font-size: 2.8rem; margin-bottom: 0.8rem;">📈</div>
+                            <h3>Expected Outcome</h3>
+                            <p style="font-size: 1.4rem;">Develop deep understanding of divisibility, congruences, and integer equations, enabling confident handling of advanced exam and olympiad tasks.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 3: TASKS (6 задач из файла) -->
+        <div class="slide slide-large">
+            <div class="slide-card">
+                <div class="slide-header">
+                    <span>📋 Research Tasks (from dissertation)</span>
+                    <span class="slide-number">3 / 6</span>
+                </div>
+                <div class="slide-content">
+                    <h2>Key Objectives of the Study</h2>
+                    <div class="info-card" style="background: #f0f7fc;">
+                        <ul class="task-list">
+                            <li>Summarize the significance of number theory in the school mathematics curriculum</li>
+                            <li>Examine the basic concepts of number theory studied in the school mathematics course</li>
+                            <li>Analyze educational and methodological literature on the research topic</li>
+                            <li>Develop a program for the elective course "Elements of Number Theory" for 10th grade students</li>
+                            <li>Conduct a pedagogical experiment and analyze its results</li>
+                            <li>Develop technological maps for the elective course lessons on "Divisibility Rules" and "Solving OGE Task No. 19"</li>
+                        </ul>
+                    </div>
+                    <div style="background: #e7f3f9; border-radius: 1.2rem; padding: 1rem; margin-top: 1rem; text-align: center;">
+                        <p style="font-size: 1.15rem;"><strong>📌 Ultimate goal:</strong> Bridge the gap between elementary arithmetic (grades 5–6) and high-level exam problems (OGE Task 19, olympiads).</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 4: METHODS (крупный шрифт) -->
+        <div class="slide slide-large">
+            <div class="slide-card">
+                <div class="slide-header">
+                    <span>🧑‍🏫 Teaching & Research Methods</span>
+                    <span class="slide-number">4 / 6</span>
+                </div>
+                <div class="slide-content">
+                    <h2>Methods and Organization</h2>
+                    <div class="grid-2col">
+                        <div class="info-card">
+                            <h3>🔹 Pedagogical Principles</h3>
+                            <ul class="task-list">
+                                <li>From simple to complex (gradual difficulty increase)</li>
+                                <li>Systematic and sequential delivery</li>
+                                <li>Step‑by‑step mastery of solution logic</li>
+                                <li>Connection to OGE and olympiad problems</li>
+                            </ul>
+                        </div>
+                        <div class="info-card">
+                            <h3>🔹 Forms of Work</h3>
+                            <ul class="task-list">
+                                <li>Lectures with interactive discussions</li>
+                                <li>Problem‑solving workshops and practice sessions</li>
+                                <li>Group research and mini‑projects (Sieve of Eratosthenes, friendly numbers)</li>
+                                <li>Independent work and diagnostic tests</li>
+                                <li>Detailed analysis of OGE Task No. 19 solutions</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div style="margin-top: 1rem; background: #fff5e6; border-radius: 1rem; padding: 0.8rem 1rem;">
+                        <p style="font-size: 1.1rem;">📊 <strong>Research methods used:</strong> theoretical analysis, curriculum review, pedagogical observation, experimental comparison (control vs. experimental groups), and statistical evaluation.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 5: RESULTS (увеличенный шрифт) -->
+        <div class="slide slide-medium-large">
+            <div class="slide-card">
+                <div class="slide-header">
+                    <span>📊 Experimental Results</span>
+                    <span class="slide-number">5 / 6</span>
+                </div>
+                <div class="slide-content">
+                    <h2>Performance Improvement (Yagulskaya Secondary School, Grade 10)</h2>
+                    <p><strong>Focus:</strong> Solving number theory problems equivalent to OGE Task No. 19 (divisibility, Diophantine equations, modular reasoning).</p>
+                    <table class="data-table">
+                        <thead>
+                            <tr><th>Level</th><th>Control group (10A)<br>without the course</th><th>Experimental group (10B)<br>with “Number Theory” course</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><strong>High</strong> (91–100%)</td><td>0%</td><td style="background:#d9f0e1;"><strong>61%</strong></td></tr>
+                            <tr><td><strong>Medium</strong> (71–90%)</td><td>46%</td><td>39%</td></tr>
+                            <tr><td><strong>Low</strong> (<70%)</td><td>54%</td><td style="background:#d9f0e1;">0%</td></tr>
+                        </tbody>
+                    </table>
+                    <div class="grid-2col" style="margin-top: 0.8rem;">
+                        <div class="info-card">
+                            <span class="result-badge">📈 +61% high achievement</span>
+                            <p style="margin-top: 0.5rem;">Students in the experimental group completely overcame the low level and significantly improved their skills in solving divisibility, congruences, and Diophantine problems — exactly the skills required for <strong>OGE Task 19</strong>.</p>
+                        </div>
+                        <div class="info-card">
+                            <span class="result-badge">✅ Confident solution of OGE No. 19</span>
+                            <p style="margin-top: 0.5rem;">The elective course helped systematize knowledge, practice advanced number theory problems, leading to successful completion of high‑difficulty tasks.</p>
+                        </div>
+                    </div>
+                    <div style="margin-top: 0.8rem; font-size: 0.9rem; text-align: center; background: #eef3f7; border-radius: 1rem; padding: 0.5rem;">
+                        🏫 Experimental base: Yagulskaya Secondary School · 10A (control) and 10B (experimental) · 52 students total
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 6: CONCLUSION (увеличенный шрифт, отдельный слайд) -->
+        <div class="slide slide-conclusion">
+            <div class="slide-card">
+                <div class="slide-header">
+                    <span>🏁 Conclusion</span>
+                    <span class="slide-number">6 / 6</span>
+                </div>
+                <div class="slide-content">
+                    <h2>Conclusion</h2>
+                    <div style="display: flex; flex-wrap: wrap; gap: 1.2rem; margin: 1rem 0;">
+                        <div style="flex:1; background:#f6fbfe; border-radius: 1rem; padding: 1rem;">
+                            <div style="font-size: 2rem;">🔗</div>
+                            <h3>Continuity</h3>
+                            <p>Links arithmetic from grades 5–6 to olympiad and OGE-level mathematics in high school.</p>
+                        </div>
+                        <div style="flex:1; background:#f6fbfe; border-radius: 1rem; padding: 1rem;">
+                            <div style="font-size: 2rem;">🧩</div>
+                            <h3>Logic + Proofs</h3>
+                            <p>Develops rigorous reasoning, counterexample construction, and theorem application skills — essential for OGE Task 19.</p>
+                        </div>
+                        <div style="flex:1; background:#f6fbfe; border-radius: 1rem; padding: 1rem;">
+                            <div style="font-size: 2rem;">🎓</div>
+                            <h3>Exam Preparation</h3>
+                            <p>Solving advanced number theory problems similar to OGE Task 19 increases chances of achieving maximum scores.</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <p style="font-weight: 700; text-align: center; font-size: 1.3rem;">⭐ The elective course “Number Theory” significantly improves OGE Task 19 performance and develops essential mathematical thinking.</p>
+                    <div class="footer-note">
+                        Developed by V. M. Kutuzov, Yagulskaya Secondary School. Based on research supervised by Associate Professor N. A. Baranova.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button class="nav-btn prev-btn" id="prevSlide" aria-label="Previous slide">‹</button>
+    <button class="nav-btn next-btn" id="nextSlide" aria-label="Next slide">›</button>
+    <div class="dots" id="dotsContainer"></div>
+</div>
+
+<script>
+    const wrapper = document.getElementById('slidesWrapper');
+    const slides = document.querySelectorAll('.slide');
+    const prevBtn = document.getElementById('prevSlide');
+    const nextBtn = document.getElementById('nextSlide');
+    const dotsContainer = document.getElementById('dotsContainer');
+    let currentIndex = 0;
+    const totalSlides = slides.length;
+
+    function updateDots() {
+        const dots = document.querySelectorAll('.dot');
+        dots.forEach((dot, idx) => {
+            if (idx === currentIndex) dot.classList.add('active');
+            else dot.classList.remove('active');
+        });
+    }
+
+    function goToSlide(index) {
+        if (index < 0) index = 0;
+        if (index >= totalSlides) index = totalSlides - 1;
+        currentIndex = index;
+        wrapper.style.transform = `translateX(-${currentIndex * 100}%)`;
+        updateDots();
+    }
+
+    function nextSlide() {
+        if (currentIndex < totalSlides - 1) {
+            goToSlide(currentIndex + 1);
+        }
+    }
+
+    function prevSlide() {
+        if (currentIndex > 0) {
+            goToSlide(currentIndex - 1);
+        }
+    }
+
+    for (let i = 0; i < totalSlides; i++) {
+        const dot = document.createElement('div');
+        dot.classList.add('dot');
+        if (i === currentIndex) dot.classList.add('active');
+        dot.addEventListener('click', () => goToSlide(i));
+        dotsContainer.appendChild(dot);
+    }
+
+    prevBtn.addEventListener('click', prevSlide);
+    nextBtn.addEventListener('click', nextSlide);
+
+    window.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') prevSlide();
+        if (e.key === 'ArrowRight') nextSlide();
+    });
+
+    let touchStartX = 0;
+    wrapper.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+    });
+    wrapper.addEventListener('touchend', (e) => {
+        const touchEndX = e.changedTouches[0].screenX;
+        const diff = touchEndX - touchStartX;
+        if (Math.abs(diff) > 50) {
+            if (diff > 0) prevSlide();
+            else nextSlide();
+        }
+    });
+</script>
+</body>
+</html>
