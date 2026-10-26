@@ -3,25 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Раскраска по примерам</title>
+    <title>Идеальная раскраска</title>
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: Arial, sans-serif;
             display: flex;
             justify-content: center;
             align-items: flex-start;
             gap: 20px;
-            background-color: #f4f4f4;
+            background-color: #eef2f5;
             padding: 20px;
             flex-wrap: wrap;
+            margin: 0;
         }
-        canvas {
+        
+        /* Контейнер для картинки и SVG-слоя */
+        .canvas-wrapper {
+            position: relative;
             background-color: white;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
-            cursor: pointer;
-            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border-radius: 12px;
+            overflow: hidden;
             max-width: 100%;
         }
+
+        /* Сама картинка (служит фоном) */
+        #bg-image {
+            display: block;
+            max-width: 100%;
+            height: auto;
+            pointer-events: none; /* Картинка не перехватывает клики */
+        }
+
+        /* SVG слой поверх картинки */
+        #svg-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        /* Стили для зон раскраски */
+        .color-zone {
+            fill: transparent; /* Изначально прозрачные */
+            stroke: transparent;
+            stroke-width: 2;
+            transition: fill 0.2s ease;
+        }
+        
+        /* При наведении подсвечиваем зону */
+        .color-zone:hover {
+            fill: rgba(200, 200, 200, 0.3); 
+        }
+
+        /* Боковая панель */
         .sidebar {
             display: flex;
             flex-direction: column;
@@ -29,19 +66,23 @@
             background: white;
             padding: 20px;
             border-radius: 12px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
-            width: 280px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            width: 260px;
         }
+
         h3 {
             margin: 0;
             text-align: center;
             color: #333;
+            font-size: 18px;
         }
+
         .palette {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
         }
+
         .color-swatch {
             width: 100%;
             aspect-ratio: 1;
@@ -51,14 +92,17 @@
             transition: all 0.2s;
             box-sizing: border-box;
         }
+
         .color-swatch:hover {
             transform: scale(1.1);
         }
+
         .color-swatch.selected {
             border-color: #333;
             transform: scale(1.1);
-            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
+
         button {
             padding: 12px;
             border: none;
@@ -67,221 +111,149 @@
             color: white;
             cursor: pointer;
             font-weight: bold;
-            font-size: 16px;
+            font-size: 15px;
             transition: background 0.2s;
         }
+
         button:hover {
             background-color: #0056b3;
         }
+
         #status {
             text-align: center;
             font-size: 14px;
             color: #555;
             min-height: 40px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 1px dashed #ccc;
         }
-        .error {
-            color: red;
-            font-weight: bold;
-        }
+
+        .error { color: #d9534f; font-weight: bold; }
+        .success { color: #28a745; font-weight: bold; }
     </style>
 </head>
 <body>
 
-    <canvas id="raskraskaCanvas"></canvas>
+    <div class="canvas-wrapper">
+        <!-- Картинка-фон -->
+        <img id="bg-image" src="raskraska.png" alt="Раскраска Дроби">
+        
+        <!-- Слой с невидимыми зонами (SVG) -->
+        <svg id="svg-layer" viewBox="0 0 1200 950" preserveAspectRatio="xMidYMid meet">
+            <!-- Левая сторона (Цифра 5) -->
+            <polygon class="color-zone" id="pink" data-color="#FF69B4" points="150,200 350,100 450,200 400,280 250,300" />
+            <polygon class="color-zone" id="red" data-color="#FF0000" points="50,320 150,250 200,350 150,420 50,400" />
+            <polygon class="color-zone" id="yellow" data-color="#FFD700" points="400,300 480,350 450,450 350,420 300,350" />
+            <polygon class="color-zone" id="orange" data-color="#FF8C00" points="50,500 150,450 200,550 150,650 50,600" />
+            <polygon class="color-zone" id="blue" data-color="#00BFFF" points="350,480 450,480 450,580 350,600 280,540" />
+            <polygon class="color-zone" id="green" data-color="#32CD32" points="100,700 250,650 300,750 200,820 80,780" />
+            <polygon class="color-zone" id="gray" data-color="#C0C0C0" points="300,700 450,650 480,750 400,800 320,780" />
+
+            <!-- Правая сторона (Цифра 7) -->
+            <polygon class="color-zone" id="darkblue" data-color="#0000FF" points="550,200 700,150 800,200 750,300 600,320" />
+            <polygon class="color-zone" id="purple" data-color="#800080" points="800,200 950,150 950,300 800,320" />
+            <polygon class="color-zone" id="brown" data-color="#8B4513" points="700,380 900,320 950,450 750,500" />
+            <polygon class="color-zone" id="black" data-color="#000000" points="650,550 850,500 850,650 700,700" />
+            <polygon class="color-zone" id="pink2" data-color="#FF69B4" points="600,750 800,700 850,850 650,900" />
+            
+            <!-- Руки -->
+            <polygon class="color-zone" id="brown-hand" data-color="#8B4513" points="50,850 350,850 350,950 50,950" />
+            <polygon class="color-zone" id="brown-hand2" data-color="#8B4513" points="550,850 850,850 850,950 550,950" />
+        </svg>
+    </div>
 
     <div class="sidebar">
         <h3>Выберите цвет</h3>
         <div class="palette" id="colorContainer"></div>
-        <div id="status">Загрузка картинки...</div>
-        <button onclick="resetCanvas()">Сбросить всё</button>
-        <button onclick="document.getElementById('fileInput').click()" style="background-color: #28a745;">Загрузить картинку</button>
-        <input type="file" id="fileInput" accept="image/*" style="display: none;">
+        <div id="status">Кликайте по областям!</div>
+        <button onclick="resetCanvas()">Сбросить раскраску</button>
     </div>
 
     <script>
-        // --- СПИСОК ЦВЕТОВ (Строго по вашему изображению) ---
+        // --- ЦВЕТА (Строго по картинке) ---
         const palette = [
-            { hex: "#FF69B4", id: "pink" },   // Розовый
-            { hex: "#FF0000", id: "red" },    // Красный
-            { hex: "#FF8C00", id: "orange" }, // Оранжевый
-            { hex: "#FFD700", id: "yellow" }, // Желтый
-            { hex: "#32CD32", id: "green" },  // Зеленый
-            { hex: "#00BFFF", id: "blue" },   // Голубой
-            { hex: "#0000FF", id: "darkblue" },// Синий
-            { hex: "#800080", id: "purple" }, // Фиолетовый
-            { hex: "#8B4513", id: "brown" },  // Коричневый
-            { hex: "#C0C0C0", id: "gray" },   // Серый
-            { hex: "#000000", id: "black" }   // Черный
+            { hex: "#FF69B4", name: "Розовый" },
+            { hex: "#FF0000", name: "Красный" },
+            { hex: "#FF8C00", name: "Оранжевый" },
+            { hex: "#FFD700", name: "Желтый" },
+            { hex: "#32CD32", name: "Зеленый" },
+            { hex: "#00BFFF", name: "Голубой" },
+            { hex: "#0000FF", name: "Синий" },
+            { hex: "#800080", name: "Фиолетовый" },
+            { hex: "#8B4513", name: "Коричневый" },
+            { hex: "#C0C0C0", name: "Серый" },
+            { hex: "#000000", name: "Черный" }
         ];
 
-        const canvas = document.getElementById('raskraskaCanvas');
-        const ctx = canvas.getContext('2d', { willReadFrequently: true });
-        const statusDiv = document.getElementById('status');
         const colorContainer = document.getElementById('colorContainer');
-        
+        const statusDiv = document.getElementById('status');
+        const zones = document.querySelectorAll('.color-zone');
         let selectedColor = null;
-        let imageLoaded = false;
-        let img = new Image();
 
-        // --- ЗАДАЕМ ОБЛАСТИ (Координаты X, Y, Радиус) ---
-        // ВНИМАНИЕ: Координаты приблизительные, основаны на пропорциях вашей картинки.
-        // Если область закрашивается криво, эти цифры можно подкорректировать.
-        const areas = [
-            // Левая сторона (Цифра 5 и внутренние круги)
-            { id: "pink",   x: 280, y: 180, r: 60 },  // Верхняя дуга (2 1/3 + 4 5/6)
-            { id: "red",    x: 180, y: 320, r: 50 },  // Левая верхняя (7/12 + 5/12)
-            { id: "yellow", x: 320, y: 360, r: 50 },  // Внутренняя дуга (9 - 2/3)
-            { id: "orange", x: 180, y: 520, r: 50 },  // Левая середина (6 3/8 - 1 1/8)
-            { id: "blue",   x: 320, y: 520, r: 50 },  // Внутренний круг (12/15 + 3/5)
-            { id: "green",  x: 200, y: 700, r: 60 },  // Левая нижняя (5 7/9 - 2 4/9)
-            { id: "gray",   x: 350, y: 720, r: 50 },  // Правая нижняя (11/14 + 2/7)
-            
-            // Правая сторона (Цифра 7)
-            { id: "darkblue", x: 600, y: 220, r: 70 }, // Верхняя часть (3 1/4 + 2 3/4)
-            { id: "purple",   x: 830, y: 220, r: 60 }, // Верхний правый угол (8 - 5/6)
-            { id: "brown",    x: 730, y: 400, r: 50 }, // Средняя часть (4 7/12 - 1 5/12)
-            { id: "black",    x: 700, y: 550, r: 50 }, // Нижняя средняя (9/10 + 1/5)
-            { id: "pink",     x: 700, y: 750, r: 60 }, // Самая нижняя (7 - 3 2/7) - Внимание: цвет розовый, но пример другой!
-            
-            // Руки (опционально)
-            { id: "brown", x: 200, y: 900, r: 80 },
-            { id: "brown", x: 700, y: 900, r: 80 }
-        ];
-
-        // --- ИНИЦИАЛИЗАЦИЯ ПАЛИТРЫ ---
+        // 1. Создаем палитру
         palette.forEach(color => {
             const swatch = document.createElement('div');
             swatch.className = 'color-swatch';
             swatch.style.backgroundColor = color.hex;
+            swatch.title = color.name;
+            
             swatch.onclick = () => {
+                // Снимаем выделение со всех
                 document.querySelectorAll('.color-swatch').forEach(el => el.classList.remove('selected'));
+                // Выделяем текущий
                 swatch.classList.add('selected');
                 selectedColor = color;
-                statusDiv.innerText = "Цвет выбран. Кликайте по рисунку.";
+                
+                statusDiv.innerText = `Выбран: ${color.name}`;
                 statusDiv.className = "";
             };
             colorContainer.appendChild(swatch);
         });
 
-        // --- ЗАГРУЗКА КАРТИНКИ ---
-        img.src = 'raskraska.png';
-        img.crossOrigin = "Anonymous";
-        
-        img.onload = () => {
-            canvas.width = img.width;
-            canvas.height = img.height;
-            ctx.drawImage(img, 0, 0);
-            imageLoaded = true;
-            statusDiv.innerText = "Готово! Выберите цвет и кликайте.";
-            statusDiv.style.color = "green";
-        };
-
-        img.onerror = () => {
-            statusDiv.innerText = "Ошибка: Не найден файл raskraska.png. Нажмите 'Загрузить картинку'.";
-            statusDiv.className = "error";
-        };
-
-        // Ручная загрузка
-        document.getElementById('fileInput').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    img.src = event.target.result;
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-
-        // --- ЛОГИКА КЛИКА ---
-        canvas.addEventListener('click', (e) => {
-            if (!imageLoaded) return;
-            if (!selectedColor) {
-                statusDiv.innerText = "Сначала выберите цвет в палитре!";
-                statusDiv.className = "error";
-                return;
-            }
-
-            // Получаем координаты клика относительно реального размера картинки
-            const rect = canvas.getBoundingClientRect();
-            const scaleX = canvas.width / rect.width;
-            const scaleY = canvas.height / rect.height;
-            const clickX = (e.clientX - rect.left) * scaleX;
-            const clickY = (e.clientY - rect.top) * scaleY;
-
-            let areaFound = false;
-
-            // Проверяем все заданные области
-            for (let area of areas) {
-                // Вычисляем расстояние от клика до центра области
-                const dist = Math.sqrt(Math.pow(clickX - area.x, 2) + Math.pow(clickY - area.y, 2));
-
-                if (dist < area.r) {
-                    // Если попали в область
-                    if (area.id === selectedColor.id) {
-                        // Цвет совпал! Закрашиваем.
-                        fillArea(area, selectedColor.hex);
-                        statusDiv.innerText = "Верно! Область закрашена.";
-                        statusDiv.className = "";
-                        areaFound = true;
-                        break;
-                    } else {
-                        // Попали в область, но цвет не тот
-                        statusDiv.innerText = "Этот пример решается другим цветом!";
-                        statusDiv.className = "error";
-                        areaFound = true; // Нашли область, но не ту
-                        break;
-                    }
+        // 2. Логика раскрашивания
+        zones.forEach(zone => {
+            zone.addEventListener('click', (e) => {
+                if (!selectedColor) {
+                    statusDiv.innerText = "Сначала выберите цвет в палитре!";
+                    statusDiv.className = "error";
+                    return;
                 }
-            }
 
-            if (!areaFound) {
-                statusDiv.innerText = "Клик мимо области. Попробуйте попасть в центр примера.";
-                statusDiv.className = "error";
-            }
+                // Получаем правильный цвет для этой зоны (из data-атрибута)
+                const correctColorHex = zone.getAttribute('data-color');
+
+                // Проверяем, совпадает ли выбранный цвет с правильным
+                if (selectedColor.hex.toUpperCase() === correctColorHex.toUpperCase()) {
+                    // Верно! Закрашиваем
+                    zone.style.fill = selectedColor.hex;
+                    zone.style.fillOpacity = "0.85"; // Немного прозрачности, чтобы текстура бумаги/линии были видны
+                    statusDiv.innerText = "Верно!";
+                    statusDiv.className = "success";
+                } else {
+                    // Неверно
+                    statusDiv.innerText = "Этот пример решается другим цветом!";
+                    statusDiv.className = "error";
+                    
+                    // Визуально показываем ошибку (трясем зону)
+                    zone.style.fill = "#ffcccc";
+                    setTimeout(() => {
+                        if(!zone.style.fill || zone.style.fill === "#ffcccc") {
+                             zone.style.fill = "transparent";
+                        }
+                    }, 300);
+                }
+            });
         });
 
-        // --- ФУНКЦИЯ ЗАКРАШИВАНИЯ ---
-        function fillArea(area, colorHex) {
-            // Используем глобальный композитный режим, чтобы закрасить только белые пиксели
-            // (чтобы черные линии и текст остались видны)
-            
-            // Создаем временный canvas для заливки
-            const tempCanvas = document.createElement('canvas');
-            tempCanvas.width = canvas.width;
-            tempCanvas.height = canvas.height;
-            const tempCtx = tempCanvas.getContext('2d');
-
-            // Рисуем круг нужного цвета
-            tempCtx.fillStyle = colorHex;
-            tempCtx.beginPath();
-            tempCtx.arc(area.x, area.y, area.r, 0, Math.PI * 2);
-            tempCtx.fill();
-
-            // Накладываем этот круг на основной холст, но только в тех местах, где есть пиксели
-            // (source-atop сохраняет черные линии)
-            ctx.save();
-            ctx.globalCompositeOperation = 'source-atop';
-            
-            // Рисуем картинку поверх, чтобы обновить маску (опционально)
-            // Но проще просто закрасить:
-            ctx.drawImage(tempCanvas, 0, 0);
-            
-            ctx.restore();
-            
-            // Перерисовываем контуры поверх, чтобы они не закрасились (если нужно)
-            // В данном случае мы используем source-atop, который не закрашивает прозрачность, 
-            // но черные линии уже есть на холсте.
-        }
-
-        // --- СБРОС ---
+        // 3. Сброс
         function resetCanvas() {
-            if (imageLoaded) {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                ctx.drawImage(img, 0, 0);
-                statusDiv.innerText = "Сброшено. Начните заново!";
-                statusDiv.style.color = "#555";
-            }
+            zones.forEach(zone => {
+                zone.style.fill = "transparent";
+            });
+            statusDiv.innerText = "Сброшено!";
+            statusDiv.className = "";
         }
     </script>
 </body>
